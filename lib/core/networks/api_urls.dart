@@ -1,0 +1,4 @@
+class ApiUrls {
+  static const token =
+      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNTI2M2YzNzM5Yjc0MGFiZGQ1NDFiOTdkMzI0MGUzZCIsIm5iZiI6MTc1OTA1NDUyOS4yNzksInN1YiI6IjY4ZDkwYWMxNjg2YmNhMzc3ZjJkZTRiNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.jpVyeE5ZoXkfxnKcDMk5KmjlMH5DEAX43KyiLSo1UfQ';
+}
