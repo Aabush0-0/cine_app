@@ -8,6 +8,7 @@ class MovieState {
   final String searchQuery;
   final bool isLoading;
   final String? errorMessage;
+  final List<String> favoriteIds;
 
   const MovieState({
     this.popularMovies = const [],
@@ -17,6 +18,7 @@ class MovieState {
     this.searchQuery = '',
     this.isLoading = false,
     this.errorMessage,
+    this.favoriteIds = const [],
   });
 
   MovieState copyWith({
@@ -27,6 +29,7 @@ class MovieState {
     String? searchQuery,
     bool? isLoading,
     String? errorMessage,
+    List<String>? favoriteIds,
   }) {
     return MovieState(
       popularMovies: popularMovies ?? this.popularMovies,
@@ -35,7 +38,8 @@ class MovieState {
       filteredMovies: filteredMovies ?? this.filteredMovies,
       searchQuery: searchQuery ?? this.searchQuery,
       isLoading: isLoading ?? this.isLoading,
-      errorMessage: errorMessage,
+      errorMessage: errorMessage ?? this.errorMessage,
+      favoriteIds: favoriteIds ?? this.favoriteIds,
     );
   }
 }

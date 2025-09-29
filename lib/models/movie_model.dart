@@ -13,6 +13,7 @@ abstract class Movie with _$Movie {
     @JsonKey(name: 'backdrop_path') String? backdropPath,
     @JsonKey(name: 'vote_average') double? voteAverage,
     @JsonKey(name: 'release_date') String? releaseDate,
+    List<Movie>? similarMovies,
   }) = _Movie;
 
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);

@@ -1,9 +1,12 @@
+import 'package:cinema_app/screens/favorites_screen.dart';
 import 'package:cinema_app/screens/home_screen.dart';
+import 'package:cinema_app/screens/login_screen.dart';
 import 'package:cinema_app/screens/movies_screen.dart';
 import 'package:flutter/material.dart';
 
 class FirstScreen extends StatefulWidget {
-  const FirstScreen({super.key});
+  final String username;
+  const FirstScreen({super.key, required this.username});
 
   @override
   State<FirstScreen> createState() => _FirstScreenState();
@@ -11,16 +14,31 @@ class FirstScreen extends StatefulWidget {
 
 class _FirstScreenState extends State<FirstScreen> {
   final PageController pageController = PageController(initialPage: 0);
-  late int _selectedIndex = 0;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Cinema App - ${widget.username}"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+              );
+            },
+          ),
+        ],
+      ),
       body: PageView(
         controller: pageController,
-        children: const [
-          Center(child: HomeScreen()),
-          Center(child: MoviesScreen()),
+        children: [
+          HomeScreen(username: widget.username),
+          MoviesScreen(username: widget.username),
+          FavoritesScreen(username: widget.username),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -40,6 +58,10 @@ class _FirstScreenState extends State<FirstScreen> {
             label: 'Home',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.movie), label: 'Movies'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorites',
+          ),
         ],
       ),
     );

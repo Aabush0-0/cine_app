@@ -1,67 +1,47 @@
 import 'package:flutter/material.dart';
 
 import '../models/movie_model.dart';
+import '../states/movie_cubit.dart';
 
 class MovieCard extends StatelessWidget {
   final Movie movie;
-  final double width;
-  final double height;
-
-  const MovieCard({
-    super.key,
-    required this.movie,
-    this.width = 150,
-    this.height = 250,
-  });
+  final MovieCubit cubit; // required cubit
+  const MovieCard({super.key, required this.movie, required this.cubit});
 
   @override
   Widget build(BuildContext context) {
-    final posterUrl = (movie.posterPath?.isNotEmpty ?? false)
-        ? 'https://image.tmdb.org/t/p/w500${movie.posterPath}'
-        : null;
+    final isFav = cubit.isFavorite(movie);
 
-    return Container(
-      width: width,
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      child: Column(
-        children: [
-          Expanded(
-            child: posterUrl != null
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      posterUrl,
-                      fit: BoxFit.cover,
-                      width: width,
-                      loadingBuilder: (context, child, progress) {
-                        if (progress == null) return child;
-                        return const Center(child: CircularProgressIndicator());
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          color: Colors.grey[300],
-                          child: const Icon(Icons.broken_image, size: 50),
-                        );
-                      },
-                    ),
+    return Stack(
+      children: [
+        Container(
+          width: 140,
+          margin: const EdgeInsets.all(5),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: movie.posterPath != null
+                ? Image.network(
+                    'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                    fit: BoxFit.cover,
                   )
                 : Container(
                     color: Colors.grey[300],
                     child: const Icon(Icons.movie, size: 50),
                   ),
           ),
-          const SizedBox(height: 8),
-          SizedBox(
-            width: width,
-            child: Text(
-              movie.title ?? 'No Title',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
+        ),
+        Positioned(
+          top: 8,
+          right: 8,
+          child: GestureDetector(
+            onTap: () => cubit.toggleFavorite(movie),
+            child: Icon(
+              isFav ? Icons.favorite : Icons.favorite_border,
+              color: Colors.red,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
